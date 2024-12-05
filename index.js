@@ -1,4 +1,7 @@
 const express = require('express');
+const session = require('express-session');
+const jwt = require('jsonwebtoken');
+
 
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
@@ -8,8 +11,6 @@ const rrhhRoutes = require('./routes/rrhhRoutes')
 const produccionRoutes = require('./routes/produccionRoutes');
 const authRoutes = require('./routes/authRoutes');
 
-
-
 dotenv.config();
 
 connectDB();
@@ -18,6 +19,14 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'miClaveSecreta',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true, httpOnly: true, maxAge: 3600000 },
+  })
+);
 
 
 app.use('/api/rrhh', rrhhRoutes);
