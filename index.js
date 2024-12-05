@@ -1,11 +1,11 @@
 const express = require('express');
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
-
-
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
 const cors = require('cors');
+
+const MongoStore = require('connect-mongo');
 
 const rrhhRoutes = require('./routes/rrhhRoutes')
 const produccionRoutes = require('./routes/produccionRoutes');
@@ -19,12 +19,17 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'miClaveSecreta',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: true, httpOnly: true, maxAge: 3600000 },
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI, 
+      ttl: 14 * 24 * 60 * 60, 
+    }),
   })
 );
 
