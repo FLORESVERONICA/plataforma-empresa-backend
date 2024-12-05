@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Función para generar el JWT
+
 const generateToken = (userId, role) => {
   return jwt.sign({ id: userId, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
@@ -25,10 +25,10 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Contraseña incorrecta' });
 
-    // Generar el token JWT
+
     const token = generateToken(user._id, user.role);
 
-    // Guardar el token en la sesión de Express
+    
     req.session.token = token;
 
     res.json({ message: 'Inicio de sesión exitoso', token, role: user.role });
@@ -76,7 +76,7 @@ const logout = (req, res) => {
     if (err) {
       return res.status(500).json({ message: 'Error al cerrar sesión' });
     }
-    res.clearCookie('connect.sid'); // Limpia la cookie de sesión
+    res.clearCookie('connect.sid'); 
     res.status(200).json({ message: 'Sesión cerrada exitosamente.' });
   });
 };
