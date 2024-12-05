@@ -39,13 +39,13 @@ const updateEmployeeDetails = async (req, res) => {
     const { NumeroTarjeta, GrupoDescanso, Departamento, Puesto } = req.body;
   
     try {
-      // Buscamos al empleado
+      
       const employee = await Employee.findById(id);
       if (!employee) {
         return res.status(404).json({ message: "Empleado no encontrado" });
       }
   
-      // Verificamos qué campos se pueden modificar
+      
       const fieldsToUpdate = {};
   
       if (NumeroTarjeta && employee.canModify.NumeroTarjeta) {
@@ -72,7 +72,7 @@ const updateEmployeeDetails = async (req, res) => {
         return res.status(403).json({ message: "No puedes modificar el puesto desde aquí" });
       }
   
-      // Actualizamos el empleado con los nuevos campos permitidos
+      
       const updatedEmployee = await Employee.findByIdAndUpdate(id, fieldsToUpdate, { new: true });
   
       res.status(200).json({ message: "Empleado actualizado", updatedEmployee });
@@ -84,11 +84,10 @@ const updateEmployeeDetails = async (req, res) => {
 const updateEmployeeStatus = async (req, res) => {
     try {
         const { id } = req.params;
-        // Aquí actualizas el campo "isActive" del trabajador a false
         const employee = await Employee.findByIdAndUpdate(
             id,
-            { isActive: false, Estado: 'desvinculado' }, // Actualiza Estado y isActive
-            { new: true } // Retorna el documento actualizado
+            { isActive: false, Estado: 'desvinculado' }, 
+            { new: true } 
         );
 
         if (!employee) {
@@ -101,7 +100,7 @@ const updateEmployeeStatus = async (req, res) => {
     }
 };
 
-// Obtener todos los festivos
+
 const getHolidays = async (req, res) => {
   try {
     const holidays = await Holiday.find();
@@ -111,7 +110,7 @@ const getHolidays = async (req, res) => {
   }
 };
 
-// Agregar un nuevo festivo
+
 const addHoliday = async (req, res) => {
   const { date, type } = req.body;
   try {
@@ -123,7 +122,7 @@ const addHoliday = async (req, res) => {
   }
 };
 
-// Eliminar un festivo
+
 const deleteHoliday = async (req, res) => {
   const { id } = req.params;
   try {

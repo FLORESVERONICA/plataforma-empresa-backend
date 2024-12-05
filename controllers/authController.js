@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// Registro de usuario
+
 const register = async (req, res) => {
   const { email, username, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -12,7 +12,7 @@ const register = async (req, res) => {
   res.status(201).send('Usuario registrado');
 };
 
-// Inicio de sesión
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -29,7 +29,7 @@ const login = async (req, res) => {
 };
 
 
-// Asignar rol a un usuario
+
 const assignRole = async (req, res) => {
   const { role } = req.body;
   if (!['Responsable RRHH', 'Responsable Logistica', 'Responsable Produccion', 'Responsable Calidad'].includes(role)) {
@@ -39,13 +39,12 @@ const assignRole = async (req, res) => {
   res.send('Rol asignado');
 };
 
-// Obtener todos los usuarios
+
 const getUsers = async (req, res) => {
   const users = await User.find();
   res.json(users);
 };
 
-// Crear administrador
 const createAdmin = async (req, res) => {
   try {
     const { email, username, password } = req.body;
