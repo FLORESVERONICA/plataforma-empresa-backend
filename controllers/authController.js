@@ -73,6 +73,25 @@ const createAdmin = async (req, res) => {
   }
 };
 
+const getUserInfo = async (req, res) => {
+
+  try{
+    const user = await User.findById(req.user.id);
+    if(!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado'});
+    }
+    res.json({
+      email: user.email,
+      role: user.role,
+    });
+
+  } catch (error){
+    console.error('Error obteniendo la informacion del usuario', error);
+    res.status(500).json({ message: 'Error obteniendo la informacion del usuario'});
+
+  }
+};
+
 const logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -89,6 +108,7 @@ module.exports = {
   assignRole,
   getUsers,
   createAdmin,
+  getUserInfo,
   logout
 };
 

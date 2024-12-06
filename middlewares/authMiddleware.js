@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const authMiddleware = (req, res, next) => {
   console.log('Middleware de autenticación activado');
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.headers.authorization.split(' ')[1];
   if (!token) {
     console.log('Token no encontrado');
     return res.status(401).json({ message: 'Acceso denegado' });
@@ -10,7 +10,7 @@ const authMiddleware = (req, res, next) => {
   try {
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     req.user = verified;
-    console.log('Token verificado:', verified); // Muestra el contenido del token
+    console.log('Token verificado:', verified); 
     next();
   } catch (error) {
     console.log('Error en la verificación del token:', error.message);
