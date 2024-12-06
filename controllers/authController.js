@@ -4,9 +4,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
-const generateToken = (userId, role) => {
-  return jwt.sign({ id: userId, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-};
 
 const register = async (req, res) => {
   const { email, username, password } = req.body;
@@ -26,8 +23,8 @@ const login = async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Contraseña incorrecta' });
 
 
-    const token = generateToken(user._id, user.role);
-
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log('Token generado:', token);
     
     req.session.token = token;
 
@@ -48,8 +45,13 @@ const assignRole = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error('Error al obtener usuarios:', error);
+    res.status(500).json({ message: 'Error al obtener usuarios' });
+  }
 };
 
 const createAdmin = async (req, res) => {
