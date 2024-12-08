@@ -110,5 +110,5 @@ module.exports = {
   updateDepartamento,
   deleteDepartamento,
   deletePuesto,
-  generarCuadrante
+
 };
