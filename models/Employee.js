@@ -20,15 +20,9 @@ const employeeSchema = new mongoose.Schema({
     GrupoDescanso: { type: String },
     Departamento: { type: String },
     Puesto: { type: String },
-    Antiguedad: {type: Date, default: null},
     
-  canModify: {
-    NumeroTarjeta: { type: Boolean, default: false },
-    GrupoDescanso: { type: Boolean, default: false },
-    Departamento: { type: Boolean, default: false },
-    Puesto: { type: Boolean, default: false }
   }
-});
+);
 
 const Employee = mongoose.model("Employee", employeeSchema);
 module.exports = Employee;

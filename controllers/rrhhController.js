@@ -33,53 +33,25 @@ const getEmployeeById = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
 };
+const updateEmployeeDetails = async (req, res) => { 
+  const { id } = req.params; 
+  const fieldsToUpdate = req.body; 
+  try { 
+    const employee = await Employee.findById(id); 
+    if (!employee) { 
+      return res.status(404).json({ message: "Empleado no encontrado" }); 
+    } 
 
-const updateEmployeeDetails = async (req, res) => {
-    const { id } = req.params;
-    const { NumeroTarjeta, GrupoDescanso, Departamento, Puesto } = req.body;
+    const updatedEmployee = await Employee.findByIdAndUpdate(id, fieldsToUpdate, { new: true }); 
+    res.status(200).json({ message: "Empleado actualizado", updatedEmployee }); 
+  } catch (error) { 
+    console.error("Error en la actualización:", error); 
+    res.status(500).json({ message: error.message });
+  } 
+};
+    
   
-    try {
-      
-      const employee = await Employee.findById(id);
-      if (!employee) {
-        return res.status(404).json({ message: "Empleado no encontrado" });
-      }
   
-      
-      const fieldsToUpdate = {};
-  
-      if (NumeroTarjeta && employee.canModify.NumeroTarjeta) {
-        fieldsToUpdate.NumeroTarjeta = NumeroTarjeta;
-      } else if (NumeroTarjeta) {
-        return res.status(403).json({ message: "No puedes modificar el número de tarjeta desde aquí" });
-      }
-  
-      if (GrupoDescanso && employee.canModify.GrupoDescanso) {
-        fieldsToUpdate.GrupoDescanso = GrupoDescanso;
-      } else if (GrupoDescanso) {
-        return res.status(403).json({ message: "No puedes modificar el grupo de descanso desde aquí" });
-      }
-  
-      if (Departamento && employee.canModify.Departamento) {
-        fieldsToUpdate.Departamento = Departamento;
-      } else if (Departamento) {
-        return res.status(403).json({ message: "No puedes modificar el departamento desde aquí" });
-      }
-  
-      if (Puesto && employee.canModify.Puesto) {
-        fieldsToUpdate.Puesto = Puesto;
-      } else if (Puesto) {
-        return res.status(403).json({ message: "No puedes modificar el puesto desde aquí" });
-      }
-  
-      
-      const updatedEmployee = await Employee.findByIdAndUpdate(id, fieldsToUpdate, { new: true });
-  
-      res.status(200).json({ message: "Empleado actualizado", updatedEmployee });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
 
 const updateEmployeeStatus = async (req, res) => {
     try {

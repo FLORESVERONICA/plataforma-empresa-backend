@@ -1,5 +1,6 @@
 
 const Departamento = require('../models/Departamento');
+const Employee = require('../models/Employee');
 
 const createDepartamento = async (req, res) => {
 try {
@@ -101,11 +102,13 @@ const deletePuesto = async (req, res) => {
 
 
 
+
 module.exports = {
   addPuesto,
   createDepartamento,
   getDepartamentos,
   updateDepartamento,
   deleteDepartamento,
-  deletePuesto
+  deletePuesto,
+  generarCuadrante
 };

@@ -1,6 +1,14 @@
 const jwt = require('jsonwebtoken');
+
 const authMiddleware = (req, res, next) => {
   console.log('Middleware de autenticación activado');
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    console.log('Encabezado de autorización ausente o mal formado');
+    return res.status(401).json({ message: 'Acceso denegado: Token no encontrado o inválido' });
+  }
+
   const token = req.headers.authorization.split(' ')[1];
   if (!token) {
     console.log('Token no encontrado');

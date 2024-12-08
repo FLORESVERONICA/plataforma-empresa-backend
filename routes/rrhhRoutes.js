@@ -1,6 +1,7 @@
 const express = require("express");
 const { createEmployee, getEmployees, getEmployeeById,  updateEmployeeDetails, updateEmployeeStatus,  getHolidays, addHoliday, deleteHoliday,
     generarCuadrante, } = require("../controllers/rrhhController");
+    
 const router = express.Router();
 
 router.post('/employee', createEmployee);
