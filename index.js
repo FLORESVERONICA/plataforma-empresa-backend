@@ -17,10 +17,12 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-  origin: 'https://miplataforma.netlify.app',
-  credentials: true
-}));
+//app.use(cors({
+ // origin: 'https://miplataforma.netlify.app',
+ // credentials: true
+//}));
+
+app.use(cors());
 app.use(express.json());
 
 app.use(
